@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.getById(userId);
 
         User userCopy = new User(user.getId(), user.getName(),
-                user.getEmail(), user.getItemSharingId());
+                user.getEmail());
         if (userDto.getName() != null) {
             userCopy.setName(userDto.getName());
         }

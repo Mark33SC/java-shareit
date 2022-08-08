@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.lang.NonNull;
 import ru.practicum.shareit.requests.ItemRequest;
+import ru.practicum.shareit.user.User;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -22,9 +23,8 @@ public class Item {
     @NonNull
     @Size(max = 500)
     private String description;
-    private final long ownerId;
+    private final User owner;
     @NonNull
     private Boolean available;
     private ItemRequest request;
-    private List<Long> bookingsId;
 }

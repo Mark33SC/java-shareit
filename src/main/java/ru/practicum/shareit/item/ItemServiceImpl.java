@@ -33,8 +33,8 @@ public class ItemServiceImpl implements ItemService {
         Item item = itemRepository.getById(itemId);
 
         Item itemCopy = new Item(item.getId(), item.getName(),
-                item.getDescription(), item.getOwnerId(),
-                item.getAvailable(), item.getRequest(), item.getBookingsId());
+                item.getDescription(), item.getOwner(),
+                item.getAvailable(), item.getRequest());
         String newName = itemDto.getName();
         String newDescription = itemDto.getDescription();
         Boolean newAvailability = itemDto.getAvailable();

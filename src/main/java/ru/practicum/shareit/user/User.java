@@ -14,11 +14,10 @@ import java.util.List;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class User {
     @EqualsAndHashCode.Include
-    Long id;
+    private Long id;
     @NotBlank
-    String name;
+    private String name;
     @NonNull
     @Email
-    String email;
-    private List<Long> itemSharingId;
+    private String email;
 }

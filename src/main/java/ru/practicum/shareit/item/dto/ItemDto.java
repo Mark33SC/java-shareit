@@ -3,6 +3,7 @@ package ru.practicum.shareit.item.dto;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import ru.practicum.shareit.requests.ItemRequest;
 
 import java.util.List;
 
@@ -14,5 +15,5 @@ public class ItemDto {
     private String name;
     private String description;
     private Boolean available;
-    private List<Long> bookingsId;
+    private Long requestId;
 }

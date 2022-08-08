@@ -13,5 +13,4 @@ public class UserDto {
     private long id;
     private String name;
     private String email;
-    private List<Long> itemSharingId;
 }
