@@ -2,18 +2,20 @@ package ru.practicum.shareit.item.dto;
 
 import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Data
 @Builder
-@EqualsAndHashCode
-public class ItemDto {
-    private Long id;
-
+public class ItemCreateDto {
+    @NotBlank
     private String name;
 
+    @NotBlank
     private String description;
 
+    @NotNull
     private Boolean available;
 
     private Long requestId;

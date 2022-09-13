@@ -10,13 +10,13 @@ import javax.validation.constraints.NotBlank;
 @Data
 @Builder
 @EqualsAndHashCode
-public class UserDto {
-    private Long id;
+public class UserCreateDto {
 
     @NotBlank
     private String name;
 
     @Email
+    @NotBlank
     private String email;
 
 }
