@@ -156,7 +156,7 @@ public class BookingServiceImpl implements BookingService {
                                 pageRequest)
                         .toList();
         }
-            return bookingRepository.findAllBookingsByItemOwner(itemOwner);
+        return bookingRepository.findAllBookingsByItemOwner(itemOwner);
     }
 
     @Override
