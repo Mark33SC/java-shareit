@@ -17,7 +17,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static ru.practicum.shareit.booking.BookingSpecs.*;
-import static ru.practicum.shareit.booking.BookingSpecs.hasBookingStatus;
 import static ru.practicum.shareit.booking.Status.*;
 
 @Service

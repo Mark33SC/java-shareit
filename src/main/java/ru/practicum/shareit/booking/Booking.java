@@ -25,17 +25,18 @@ public class Booking {
     @Column(name = "end_date_time")
     private LocalDateTime end;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "item_id")
     @ToString.Exclude
     private Item item;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "booker_id")
     @ToString.Exclude
     private User booker;
 
     @Column(name = "status")
+    @Enumerated(EnumType.STRING)
     private Status status;
 
     public Booking(LocalDateTime start, LocalDateTime end, Status status) {
