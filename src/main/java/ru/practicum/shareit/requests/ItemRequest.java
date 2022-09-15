@@ -26,5 +26,6 @@ public class ItemRequest {
     @ToString.Exclude
     private User requester;
 
+    @Column(name = "created")
     private LocalDateTime created;
 }
