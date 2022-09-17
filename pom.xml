@@ -17,6 +17,7 @@
 
     <properties>
         <java.version>11</java.version>
+        <checkstyle.config.location>my_checkstyle.xml</checkstyle.config.location>
     </properties>
 
     <dependencies>
@@ -46,11 +47,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.validation</groupId>
-            <artifactId>jakarta.validation-api</artifactId>
-            <version>3.0.2</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
@@ -133,7 +129,6 @@
                     <artifactId>maven-checkstyle-plugin</artifactId>
                     <version>3.1.2</version>
                     <configuration>
-                        <configLocation>checkstyle.xml</configLocation>
                         <failOnViolation>true</failOnViolation>
                         <logViolationsToConsole>true</logViolationsToConsole>
                         <includeTestSourceDirectory>true</includeTestSourceDirectory>
