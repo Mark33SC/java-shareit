@@ -2,6 +2,7 @@ package ru.practicum.shareit.booking;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,6 +13,7 @@ import ru.practicum.shareit.item.Item;
 import ru.practicum.shareit.item.ItemService;
 import ru.practicum.shareit.user.User;
 import ru.practicum.shareit.user.UserService;
+import ru.practicum.shareit.util.CustomPageable;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -48,16 +50,14 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public List<Booking> getAllBookings(long userId, String state, int from, int size) {
         User booker = userService.getUserById(userId);
-        List<Booking> bookings = bookingRepository.findAllByBookerOrderByIdDesc(booker);
-        Status status = Status.findByName(state);
+        Status status = findByName(state);
         LocalDateTime now = LocalDateTime.now();
-        PageRequest pageRequest = PageRequest.of(from, size, Sort.by("id").descending());
+        Pageable pageRequest = CustomPageable.of(from, size, Sort.sort(Booking.class).by(Booking::getStart).descending());
 
         switch (status) {
             case CURRENT:
                 return bookingRepository.findAll(
-                                BookingSpecs
-                                        .hasBooker(booker)
+                                hasBooker(booker)
                                         .and(hasBookingStatus(APPROVED).or(hasBookingStatus(REJECTED)))
                                         .and(isBookingStartLessThan(now).and(isBookingEndBeforeThan(now))),
                                 pageRequest)
@@ -65,53 +65,48 @@ public class BookingServiceImpl implements BookingService {
 
             case FUTURE:
                 return bookingRepository.findAll(
-                        BookingSpecs
-                                .hasBooker(booker)
+                        hasBooker(booker)
                                 .and(hasBookingStatus(APPROVED).or(hasBookingStatus(WAITING)))
-                                .and(BookingSpecs.isBookingStartBeforeThan(now)),
+                                .and(isBookingStartBeforeThan(now)),
                         pageRequest).toList();
 
             case WAITING:
                 return bookingRepository.findAll(
-                                BookingSpecs
-                                        .hasBooker(booker)
+                                hasBooker(booker)
                                         .and(hasBookingStatus(WAITING)),
                                 pageRequest)
                         .toList();
 
             case REJECTED:
                 return bookingRepository.findAll(
-                                BookingSpecs
-                                        .hasBooker(booker)
+                                hasBooker(booker)
                                         .and(hasBookingStatus(REJECTED)),
                                 pageRequest)
                         .toList();
 
             case PAST:
                 return bookingRepository.findAll(
-                                BookingSpecs
-                                        .hasBooker(booker)
+                                hasBooker(booker)
                                         .and(hasBookingStatus(APPROVED))
                                         .and(isBookingEndLessThan(now)),
                                 pageRequest)
                         .toList();
         }
 
-        return bookings;
+        return getAllByBooker(booker, pageRequest);
     }
 
     @Override
     public List<Booking> getAllBookingsForItemsOwner(long itemOwnerId, String state, int from, int size) {
         User itemOwner = userService.getUserById(itemOwnerId);
-        Status status = Status.findByName(state);
+        Status status = findByName(state);
         LocalDateTime now = LocalDateTime.now();
-        PageRequest pageRequest = PageRequest.of(from, size, Sort.by("id").descending());
+        PageRequest pageRequest = PageRequest.of(from, size, Sort.sort(Booking.class).by(Booking::getStart).descending());
 
         switch (status) {
             case CURRENT:
                 return bookingRepository.findAll(
-                                BookingSpecs
-                                        .hasOwnerBookedItem(itemOwner)
+                                hasOwnerBookedItem(itemOwner)
                                         .and(hasBookingStatus(APPROVED)
                                                 .or(hasBookingStatus(REJECTED)))
                                         .and(isBookingStartLessThan(now)
@@ -121,41 +116,36 @@ public class BookingServiceImpl implements BookingService {
 
             case FUTURE:
                 return bookingRepository.findAll(
-                                BookingSpecs
-                                        .hasOwnerBookedItem(itemOwner)
+                                hasOwnerBookedItem(itemOwner)
                                         .and(hasBookingStatus(APPROVED)
                                                 .or(hasBookingStatus(WAITING)))
-                                        .and(BookingSpecs
-                                                .isBookingStartBeforeThan(now)),
+                                        .and(isBookingStartBeforeThan(now)),
                                 pageRequest)
                         .toList();
 
             case WAITING:
                 return bookingRepository.findAll(
-                                BookingSpecs
-                                        .hasOwnerBookedItem(itemOwner)
+                                hasOwnerBookedItem(itemOwner)
                                         .and(hasBookingStatus(WAITING)),
                                 pageRequest)
                         .toList();
 
             case REJECTED:
                 return bookingRepository.findAll(
-                                BookingSpecs
-                                        .hasOwnerBookedItem(itemOwner)
+                                hasOwnerBookedItem(itemOwner)
                                         .and(hasBookingStatus(REJECTED)),
                                 pageRequest)
                         .toList();
 
             case PAST:
                 return bookingRepository.findAll(
-                                BookingSpecs
-                                        .hasOwnerBookedItem(itemOwner)
+                                hasOwnerBookedItem(itemOwner)
                                         .and(hasBookingStatus(APPROVED))
                                         .and(isBookingEndLessThan(now)),
                                 pageRequest)
                         .toList();
         }
-        return bookingRepository.findAllBookingsByItemOwner(itemOwner);
+        return getAllByItemOwnerId(itemOwnerId, pageRequest);
     }
 
     @Override
@@ -186,10 +176,22 @@ public class BookingServiceImpl implements BookingService {
         if (isApproved) {
             booking.setStatus(APPROVED);
         } else {
-            booking.setStatus(Status.REJECTED);
+            booking.setStatus(REJECTED);
         }
 
         return booking;
+    }
+
+    @Override
+    public List<Booking> getAllByItemOwnerId(long itemOwnerId, Pageable page) {
+        User itemOwner = userService.getUserById(itemOwnerId);
+
+        return bookingRepository.findAllBookingsByItemOwner(itemOwner, page);
+    }
+
+    @Override
+    public List<Booking> getAllByBooker(User booker, Pageable page) {
+        return bookingRepository.findAllByBookerOrderByIdDesc(booker, page);
     }
 
     private final BookingChecker<Booking> bookerIsNotOwnerItem = (booking) -> {
@@ -206,7 +208,7 @@ public class BookingServiceImpl implements BookingService {
     };
 
     private final BookingChecker<Booking> bookingIsAvailable = (booking) -> {
-        if (!booking.getItem().isAvailable()) {
+        if (!booking.getItem().getAvailable()) {
             throw new ItemIllegalArgumentException(
                     String.format("Item with id:%s is not available.", booking.getItem().getId())
             );
@@ -218,7 +220,7 @@ public class BookingServiceImpl implements BookingService {
                 || booking.getEnd().isBefore(LocalDateTime.now())
                 || booking.getStart().isAfter(booking.getEnd());
         if (isCorrectDates) {
-            throw new BookingValidationException("Start or end of booking in the past");
+            throw new BookingIncorrectStartEndDatesException("Start or end of booking in the past");
         }
     };
 

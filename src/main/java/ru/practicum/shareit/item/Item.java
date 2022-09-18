@@ -1,11 +1,11 @@
 package ru.practicum.shareit.item;
 
 import lombok.*;
-import ru.practicum.shareit.requests.ItemRequest;
 import ru.practicum.shareit.user.User;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 @Getter
@@ -27,17 +27,15 @@ public class Item {
     @NotBlank
     private String description;
 
-    private boolean available;
+    @NotNull
+    private Boolean available;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_id")
     @ToString.Exclude
     private User owner;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "request_id")
-    @ToString.Exclude
-    private ItemRequest request;
+    private Long requestId;
 
     public Item(Long id, String name, String description, boolean available) {
         this.id = id;

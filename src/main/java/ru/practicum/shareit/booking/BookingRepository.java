@@ -1,5 +1,6 @@
 package ru.practicum.shareit.booking;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -10,7 +11,7 @@ import ru.practicum.shareit.user.User;
 import java.util.List;
 
 public interface BookingRepository extends JpaRepository<Booking, Long>, JpaSpecificationExecutor<Booking> {
-    List<Booking> findAllByBookerOrderByIdDesc(User booker);
+    List<Booking> findAllByBookerOrderByIdDesc(User booker, Pageable page);
 
     List<Booking> findAllBookingByItem(Item item);
 
@@ -20,5 +21,5 @@ public interface BookingRepository extends JpaRepository<Booking, Long>, JpaSpec
             "INNER JOIN b.item Item " +
             "WHERE Item.owner=:owner " +
             "ORDER BY b.id DESC")
-    List<Booking> findAllBookingsByItemOwner(@Param("owner") User owner);
+    List<Booking> findAllBookingsByItemOwner(@Param("owner") User owner, Pageable page);
 }

@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.Collection;
+import java.util.List;
 
 public interface ItemRepository extends JpaRepository<Item, Long> {
     Page<Item> findByOwnerId(Long ownerId, Pageable pageable);
@@ -14,5 +15,7 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
             "WHERE item.available=true " +
             "AND (LOWER(item.name) LIKE LOWER(CONCAT('%', :text, '%') ) " +
             "OR LOWER(item.description) LIKE LOWER(CONCAT('%', :text, '%') ))")
-    Collection<Item> searchItems(String text);
+    Page<Item> searchItems(String text, Pageable page);
+
+    List<Item> findAllByRequestId(long requestId);
 }

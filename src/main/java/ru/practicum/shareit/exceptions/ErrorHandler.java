@@ -13,7 +13,7 @@ public class ErrorHandler {
     @ExceptionHandler({ItemNotFoundException.class,
             UserNotFoundException.class,
             UserNotOwnerItemException.class,
-            RequestNotFoundException.class,
+            ItemRequestNotFoundException.class,
             BookingNotFoundException.class,
             BookerIsOwnerItemException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
@@ -30,7 +30,8 @@ public class ErrorHandler {
     }
 
     @ExceptionHandler({ItemIllegalArgumentException.class,
-            BookingStatusException.class
+            BookingStatusException.class,
+            BookingIncorrectStartEndDatesException.class
     })
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse exceptionHandlerByBadeRequest(RuntimeException e) {

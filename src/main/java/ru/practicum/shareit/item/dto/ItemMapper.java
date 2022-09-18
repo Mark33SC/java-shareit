@@ -8,11 +8,8 @@ public class ItemMapper {
         result.id(item.getId());
         result.name(item.getName());
         result.description(item.getDescription());
-        result.available(item.isAvailable());
-
-        if (item.getRequest() != null) {
-            result.requestId(item.getRequest().getId());
-        }
+        result.available(item.getAvailable());
+        result.requestId(item.getRequestId());
 
         return result.build();
     }
@@ -21,11 +18,8 @@ public class ItemMapper {
         ItemCreateDto.ItemCreateDtoBuilder result = ItemCreateDto.builder();
         result.name(item.getName());
         result.description(item.getDescription());
-        result.available(item.isAvailable());
-
-        if (item.getRequest() != null) {
-            result.requestId(item.getRequest().getId());
-        }
+        result.available(item.getAvailable());
+        result.requestId(item.getRequestId());
 
         return result.build();
     }
@@ -49,7 +43,7 @@ public class ItemMapper {
                 .id(item.getId())
                 .name(item.getName())
                 .description(item.getDescription())
-                .available(item.isAvailable())
+                .available(item.getAvailable())
                 .build();
     }
 }

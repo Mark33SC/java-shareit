@@ -6,7 +6,6 @@ import ru.practicum.shareit.exceptions.UserNotFoundException;
 import ru.practicum.shareit.item.comment.dto.CommentCreateDto;
 import ru.practicum.shareit.item.comment.dto.CommentDto;
 import ru.practicum.shareit.item.comment.dto.CommentDtoMapper;
-import ru.practicum.shareit.item.dto.ItemCreateDto;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.dto.ItemMapper;
 import ru.practicum.shareit.item.dto.ItemWithBookingDatesDto;
@@ -41,17 +40,19 @@ public class ItemController {
 
     @GetMapping("/search")
     public List<ItemDto> searchItems(
-            @RequestParam() String text
+            @RequestParam() String text,
+            @Valid @Min(0) @RequestParam(required = false) Integer from,
+            @Valid @Min(1) @RequestParam(required = false) Integer size
     ) {
-        return itemService.searchItems(text);
+        return itemService.searchItems(text, from, size);
     }
 
     @PostMapping
     public ItemDto addItem(
             @RequestHeader("X-Sharer-User-Id") long userId,
-            @Valid @RequestBody ItemCreateDto itemCreateDto
+            @Valid @RequestBody Item item
     ) {
-        return ItemMapper.mapToDto(itemService.addItem(userId, itemCreateDto));
+        return ItemMapper.mapToDto(itemService.addItem(userId, item));
     }
 
     @PostMapping("/{itemId}/comment")
