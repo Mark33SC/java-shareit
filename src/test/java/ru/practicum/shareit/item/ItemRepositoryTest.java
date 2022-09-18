@@ -67,17 +67,17 @@ public class ItemRepositoryTest {
         assertThat(itemSResult, hasSize(1));
         assertThat(itemSResult, hasItem(itemS));
 
-        List<Item> Result = itemRepository.searchItems("пиц", page).getContent();
-        assertThat(Result, hasSize(2));
-        assertThat(Result, hasItem(itemS));
-        assertThat(Result, hasItem(itemK));
+        List<Item> result = itemRepository.searchItems("пиц", page).getContent();
+        assertThat(result, hasSize(2));
+        assertThat(result, hasItem(itemS));
+        assertThat(result, hasItem(itemK));
 
         TypedQuery<Item> query = em.getEntityManager()
                 .createQuery("SELECT it FROM Item it " +
                         "WHERE it.available = true " +
                         "AND (LOWER(it.name) LIKE LOWER(CONCAT('%', :text, '%') ) " +
                         "OR LOWER(it.description) LIKE LOWER(concat('%', :text, '%') ))", Item.class);
-        List<Item> ResultFromQuery = query.setParameter("text", "пиц").getResultList();
-        assertThat(Result, equalTo(ResultFromQuery));
+        List<Item> resultFromQuery = query.setParameter("text", "пиц").getResultList();
+        assertThat(result, equalTo(resultFromQuery));
     }
 }

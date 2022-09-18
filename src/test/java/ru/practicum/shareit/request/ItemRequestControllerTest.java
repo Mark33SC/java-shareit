@@ -16,7 +16,6 @@ import ru.practicum.shareit.requests.ItemRequestService;
 import ru.practicum.shareit.requests.dto.ItemRequestCreateDto;
 import ru.practicum.shareit.requests.dto.ItemRequestMapper;
 import ru.practicum.shareit.requests.dto.ItemRequestWithResponsesDto;
-import ru.practicum.shareit.user.User;
 
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
