@@ -12,7 +12,6 @@ public class CommentDtoMapper {
                 .build();
     }
 
-
     public static Comment toComment(CommentCreateDto commentCreateDto) {
         return Comment.builder().text(commentCreateDto.getText()).build();
     }

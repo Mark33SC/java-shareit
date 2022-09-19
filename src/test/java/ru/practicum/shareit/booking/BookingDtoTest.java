@@ -27,7 +27,7 @@ public class BookingDtoTest {
     LocalDateTime nowPlusMin = LocalDateTime.now().plusMinutes(1).truncatedTo(ChronoUnit.SECONDS);
 
     @Test
-    public void checkInputDto() throws Exception {
+    public void checkCreateDto() throws Exception {
         BookingCreateDto bookingCreateDto = BookingCreateDto.builder()
                 .id(1L)
                 .start(nowPlus10s)
@@ -44,7 +44,7 @@ public class BookingDtoTest {
     }
 
     @Test
-    public void checkOutputDto() throws Exception {
+    public void checkDto() throws Exception {
         BookingDto bookingDto = BookingDto.builder()
                 .id(1L)
                 .start(nowPlus10s)

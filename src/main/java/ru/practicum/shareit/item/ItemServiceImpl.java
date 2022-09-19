@@ -47,10 +47,6 @@ public class ItemServiceImpl implements ItemService {
                 .collect(Collectors.toList());
     }
 
-    public List<Comment> getAllCommentsByItem(Item item) {
-        return commentRepository.findAllCommentByItem(item);
-    }
-
     @Override
     @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
     public ItemWithBookingDatesDto getItemById(long itemId, long userId) {
@@ -170,6 +166,10 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public List<Item> findAllByRequestId(long requestId) {
         return itemRepository.findAllByRequestId(requestId);
+    }
+
+    private List<Comment> getAllCommentsByItem(Item item) {
+        return commentRepository.findAllCommentByItem(item);
     }
 
     private void checkItemOwner(long ownerId) {

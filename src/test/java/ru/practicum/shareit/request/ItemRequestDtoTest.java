@@ -24,7 +24,7 @@ public class ItemRequestDtoTest {
     private JacksonTester<ItemRequestWithResponsesDto> itemRequestWithResponsesDtoJacksonTester;
 
     @Test
-    public void testItemRequestInputDto() throws IOException {
+    public void testItemRequestCreateDto() throws IOException {
         ItemRequestCreateDto itemRequestCreateDto = ItemRequestCreateDto.builder()
                 .id(1L)
                 .description("dd")
