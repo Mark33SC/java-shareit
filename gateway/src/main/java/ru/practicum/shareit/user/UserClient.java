@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 import ru.practicum.shareit.client.BaseClient;
-import ru.practicum.shareit.user.dto.UserCreateDto;
-import ru.practicum.shareit.user.dto.UserDto;
+import ru.practicum.user.dto.UserCreateDto;
+import ru.practicum.user.dto.UserDto;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;

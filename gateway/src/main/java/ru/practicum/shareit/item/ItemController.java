@@ -6,8 +6,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.shareit.item.comment.dto.CommentCreateDto;
-import ru.practicum.shareit.item.dto.ItemDto;
+import ru.practicum.item.Item;
+import ru.practicum.item.comment.dto.CommentCreateDto;
+import ru.practicum.item.dto.ItemDto;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;

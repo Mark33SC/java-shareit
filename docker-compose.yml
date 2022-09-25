@@ -23,8 +23,8 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/shareitdb
       - POSTGRES_USER=shareituser
       - POSTGRES_PASSWORD=pass
-#      - POSTGRES_DB=shareituser
-#      - TZ=Europe/Moscow
+      - POSTGRES_DB=shareituser
+      - TZ=Europe/Moscow
 #      - DB_HOST=db
 #      - DB_PORT=5432
 
