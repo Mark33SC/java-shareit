@@ -24,8 +24,8 @@ public class ItemController {
     @GetMapping
     public List<ItemWithBookingDatesDto> getAll(
             @RequestHeader(header) long userId,
-            @RequestParam(defaultValue = "0") @Min(0) Integer from,
-            @RequestParam(defaultValue = "100") @Min(1) Integer size
+            @RequestParam(defaultValue = "0") Integer from,
+            @RequestParam(defaultValue = "10") Integer size
     ) {
         return itemService.getAllItemsOfOwner(userId, from, size);
     }

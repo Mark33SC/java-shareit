@@ -41,7 +41,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public List<ItemWithBookingDatesDto> getAllItemsOfOwner(long ownerId, int from, int size) {
-        PageRequest pageRequest = PageRequest.of(from, size);
+        PageRequest pageRequest = PageRequest.of(from, size, Sort.by("id"));
 
         return itemRepository.findByOwnerId(ownerId, pageRequest).stream()
                 .map(this::addToItemLastAndNextBooking)
