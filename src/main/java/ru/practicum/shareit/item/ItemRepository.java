@@ -1,21 +1,20 @@
 package ru.practicum.shareit.item;
 
-import ru.practicum.shareit.exceptions.ItemNotFoundException;
-import ru.practicum.shareit.exceptions.UserNotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
-import java.util.Collection;
+import java.util.List;
 
-public interface ItemRepository {
+public interface ItemRepository extends JpaRepository<Item, Long> {
+    Page<Item> findByOwnerId(Long ownerId, Pageable pageable);
 
-    Collection<Item> getAllItemsOfOwner(long ownerId) throws UserNotFoundException;
+    @Query("SELECT item FROM Item item " +
+            "WHERE item.available=true " +
+            "AND (LOWER(item.name) LIKE LOWER(CONCAT('%', :text, '%') ) " +
+            "OR LOWER(item.description) LIKE LOWER(CONCAT('%', :text, '%') ))")
+    Page<Item> searchItems(String text, Pageable page);
 
-    Item getById(long id) throws ItemNotFoundException;
-
-    Collection<Item> searchItems(String text);
-
-    Item addItem(long ownerId, Item item) throws UserNotFoundException;
-
-    Item updateItem(Item item, long ownerId, long itemId) throws UserNotFoundException, ItemNotFoundException;
-
-    void deleteById(long ownerId, long id) throws UserNotFoundException;
+    List<Item> findAllByRequestId(long requestId);
 }
