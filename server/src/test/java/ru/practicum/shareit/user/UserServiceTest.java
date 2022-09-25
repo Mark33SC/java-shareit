@@ -10,8 +10,6 @@ import org.springframework.dao.DataIntegrityViolationException;
 import ru.practicum.shareit.Generators;
 import ru.practicum.shareit.exceptions.UserNotFoundException;
 
-import javax.validation.ConstraintViolationException;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest

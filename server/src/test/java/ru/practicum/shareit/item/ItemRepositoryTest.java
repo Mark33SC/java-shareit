@@ -1,6 +1,5 @@
 package ru.practicum.shareit.item;
 
-import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
