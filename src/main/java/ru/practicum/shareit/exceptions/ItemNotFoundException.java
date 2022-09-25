@@ -1,6 +1,6 @@
 package ru.practicum.shareit.exceptions;
 
-public class ItemNotFoundException extends Exception {
+public class ItemNotFoundException extends RuntimeException {
     public ItemNotFoundException() {
     }
 

@@ -1,6 +1,6 @@
 package ru.practicum.shareit.exceptions;
 
-public class RequestNotFoundException extends Exception {
+public class RequestNotFoundException extends RuntimeException {
     public RequestNotFoundException() {
     }
 

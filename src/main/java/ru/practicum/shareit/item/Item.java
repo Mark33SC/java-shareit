@@ -1,29 +1,71 @@
 package ru.practicum.shareit.item;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import org.springframework.lang.NonNull;
+import lombok.*;
 import ru.practicum.shareit.requests.ItemRequest;
 import ru.practicum.shareit.user.User;
 
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import java.util.Objects;
 
-@Data
-@Builder
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@Getter
+@Setter
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+@Table(name = "items")
 public class Item {
-    @EqualsAndHashCode.Include
-    private long id;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     @NotBlank
-    @Size(max = 50)
     private String name;
-    @NonNull
-    @Size(max = 500)
+
+    @NotBlank
     private String description;
-    private final User owner;
-    @NonNull
-    private Boolean available;
+
+    private boolean available;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "owner_id")
+    @ToString.Exclude
+    private User owner;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "request_id")
+    @ToString.Exclude
     private ItemRequest request;
+
+    public Item(Long id, String name, String description, boolean available) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.available = available;
+    }
+
+    public Item(String name, String description, boolean available) {
+        this.name = name;
+        this.description = description;
+        this.available = available;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Item item = (Item) o;
+        return Objects.equals(id, item.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }

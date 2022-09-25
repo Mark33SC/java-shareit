@@ -1,6 +1,6 @@
 package ru.practicum.shareit.exceptions;
 
-public class ItemIllegalArgumentException extends Exception {
+public class ItemIllegalArgumentException extends RuntimeException {
     public ItemIllegalArgumentException() {
     }
 

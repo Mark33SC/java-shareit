@@ -2,49 +2,54 @@ package ru.practicum.shareit.user;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.shareit.exceptions.UserNotFoundException;
-import ru.practicum.shareit.user.dto.UserDto;
 
 import java.util.Collection;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     @Override
     public Collection<User> getAll() {
-        return userRepository.getAll();
+        return userRepository.findAll();
     }
 
     @Override
-    public User getById(long id) throws UserNotFoundException {
-        return userRepository.getById(id);
+    public User getUserById(long id) {
+        return userRepository.findById(id).orElseThrow(
+                UserNotFoundException::new
+        );
     }
-
 
     @Override
     public User addUser(User user) {
-        return userRepository.addUser(user);
+        return userRepository.save(user);
     }
 
     @Override
-    public User updateById(long userId, UserDto userDto) throws UserNotFoundException {
-        User user = userRepository.getById(userId);
+    public User updateById(long id, User userDto) {
+        User user = userRepository.findById(id).orElseThrow(
+                () -> new UserNotFoundException(String.format("User with id:%s not found.", id))
+        );
 
-        User userCopy = new User(user.getId(), user.getName(),
-                user.getEmail());
         if (userDto.getName() != null) {
-            userCopy.setName(userDto.getName());
+            user.setName(userDto.getName());
         }
+
         if (userDto.getEmail() != null) {
-            userCopy.setEmail(userDto.getEmail());
+            user.setEmail(userDto.getEmail());
         }
-        return userRepository.updateById(userCopy);
+
+        return user;
     }
 
     @Override
     public void deleteById(long id) {
         userRepository.deleteById(id);
     }
+
 }

@@ -1,43 +1,50 @@
 package ru.practicum.shareit.user;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.shareit.exceptions.UserNotFoundException;
+import ru.practicum.shareit.user.dto.UserCreateDto;
 import ru.practicum.shareit.user.dto.UserDto;
 import ru.practicum.shareit.user.dto.UserDtoMapper;
 
 import javax.validation.Valid;
-import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 
-@Slf4j
 @RestController
 @RequestMapping(path = "/users")
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
-    private final UserDtoMapper userDtoMapper;
 
     @GetMapping
-    public Collection<UserDto> getAll() {
-        return userService.getAll().stream().map(userDtoMapper::mapToDto).collect(Collectors.toList());
+    public List<UserDto> getAll() {
+        return userService.getAll().stream().map(UserDtoMapper::mapToDto).collect(Collectors.toList());
     }
 
-    @GetMapping("/{userId}")
-    public UserDto getById(@PathVariable long userId) throws UserNotFoundException {
-        return userDtoMapper.mapToDto(userService.getById(userId));
-    }
+    @GetMapping("/{id}")
+    public UserDto getById(@PathVariable long id) {
+        User user = userService.getUserById(id);
 
+        return UserDtoMapper.mapToDto(user);
+    }
 
     @PostMapping
-    public UserDto addUser(@Valid @RequestBody User user) {
-        return userDtoMapper.mapToDto(userService.addUser(user));
+    public UserDto addUser(@RequestBody @Valid UserCreateDto userCreateDto) {
+        User user = userService.addUser(
+                UserDtoMapper.toUser(userCreateDto)
+        );
+
+        return UserDtoMapper.mapToDto(user);
     }
 
-    @PatchMapping("/{userId}")
-    public UserDto updateById(@PathVariable long userId, @RequestBody UserDto userDto) throws UserNotFoundException {
-        return userDtoMapper.mapToDto(userService.updateById(userId, userDto));
+    @PatchMapping("/{id}")
+    public UserDto updateById(@PathVariable long id, @RequestBody UserDto userDto) {
+        User user = userService.updateById(
+                id,
+                UserDtoMapper.toUser(userDto)
+        );
+
+        return UserDtoMapper.mapToDto(user);
     }
 
     @DeleteMapping("/{userId}")
