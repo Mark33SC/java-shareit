@@ -19,8 +19,6 @@ import ru.practicum.item.comment.dto.CommentCreateDto;
 import ru.practicum.item.dto.ItemDto;
 import ru.practicum.user.User;
 
-import javax.validation.ConstraintViolationException;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
