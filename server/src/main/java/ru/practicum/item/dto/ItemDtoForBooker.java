@@ -7,8 +7,8 @@ import ru.practicum.user.dto.UserDtoForBooker;
 @Data
 @Builder
 public class ItemDtoForBooker {
-    Long id;
-    String name;
-    String description;
-    UserDtoForBooker owner;
+    private Long id;
+    private String name;
+    private String description;
+    private UserDtoForBooker owner;
 }
