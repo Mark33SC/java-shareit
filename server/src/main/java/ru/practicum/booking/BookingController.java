@@ -6,7 +6,6 @@ import ru.practicum.booking.dto.BookingCreateDto;
 import ru.practicum.booking.dto.BookingMapper;
 import ru.practicum.booking.dto.BookingDto;
 
-import javax.validation.constraints.Min;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,8 +19,8 @@ public class BookingController {
     public List<BookingDto> getAll(
             @RequestHeader("X-Sharer-User-Id") long userId,
             @RequestParam(defaultValue = "ALL") String state,
-            @RequestParam(defaultValue = "0") @Min(0) Integer from,
-            @RequestParam(defaultValue = "100") @Min(1) Integer size
+            @RequestParam(defaultValue = "0") Integer from,
+            @RequestParam(defaultValue = "100") Integer size
     ) {
         return bookingService.getAllBookings(userId, state, from, size).stream()
                 .map(BookingMapper::toBookingDto)
@@ -32,8 +31,8 @@ public class BookingController {
     public List<BookingDto> getAllBookingsForItemsOwner(
             @RequestHeader("X-Sharer-User-Id") long itemOwnerId,
             @RequestParam(defaultValue = "All") String state,
-            @RequestParam(defaultValue = "0") @Min(0) Integer from,
-            @RequestParam(defaultValue = "100") @Min(1) Integer size
+            @RequestParam(defaultValue = "0") Integer from,
+            @RequestParam(defaultValue = "100") Integer size
     ) {
         return bookingService.getAllBookingsForItemsOwner(itemOwnerId, state, from, size).stream()
                 .map(BookingMapper::toBookingDto)

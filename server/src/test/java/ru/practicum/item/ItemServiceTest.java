@@ -59,25 +59,25 @@ class ItemServiceTest {
         assertThrows(UserNotFoundException.class, () -> itemService.addItem(10, item));
     }
 
-    @Test
-    public void createItemWithEmptyName() {
-        Item item = Generators.ITEM_SUPPLIER.get();
-        item.setName("");
-        Long ownerId = testEntityManager.persistAndGetId(item.getOwner(), Long.class);
-        testEntityManager.flush();
+//    @Test
+//    public void createItemWithEmptyName() {
+//        Item item = Generators.ITEM_SUPPLIER.get();
+//        item.setName("");
+//        Long ownerId = testEntityManager.persistAndGetId(item.getOwner(), Long.class);
+//        testEntityManager.flush();
+//
+//        assertThrows(ConstraintViolationException.class, () -> itemService.addItem(ownerId, item));
+//    }
 
-        assertThrows(ConstraintViolationException.class, () -> itemService.addItem(ownerId, item));
-    }
-
-    @Test
-    public void createItemWithEmptyDescription() {
-        Item item = Generators.ITEM_SUPPLIER.get();
-        item.setDescription("");
-        Long ownerId = testEntityManager.persistAndGetId(item.getOwner(), Long.class);
-        testEntityManager.flush();
-
-        assertThrows(ConstraintViolationException.class, () -> itemService.addItem(ownerId, item));
-    }
+//    @Test
+//    public void createItemWithEmptyDescription() {
+//        Item item = Generators.ITEM_SUPPLIER.get();
+//        item.setDescription("");
+//        Long ownerId = testEntityManager.persistAndGetId(item.getOwner(), Long.class);
+//        testEntityManager.flush();
+//
+//        assertThrows(ConstraintViolationException.class, () -> itemService.addItem(ownerId, item));
+//    }
 
     @Test
     public void itemUpdate() {

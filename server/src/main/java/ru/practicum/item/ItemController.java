@@ -10,7 +10,6 @@ import ru.practicum.item.dto.ItemDto;
 import ru.practicum.item.dto.ItemMapper;
 import ru.practicum.item.dto.ItemWithBookingDatesDto;
 
-import javax.validation.constraints.Min;
 import java.util.List;
 
 @RestController
@@ -41,8 +40,8 @@ public class ItemController {
     @GetMapping("/search")
     public List<ItemDto> searchItems(
             @RequestParam() String text,
-            @Min(0) @RequestParam(required = false) Integer from,
-            @Min(1) @RequestParam(required = false) Integer size
+            @RequestParam(required = false) Integer from,
+            @RequestParam(required = false) Integer size
     ) {
         return itemService.searchItems(text, from, size);
     }

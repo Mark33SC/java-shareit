@@ -9,7 +9,6 @@ import ru.practicum.requests.dto.ItemRequestCreateDto;
 import ru.practicum.requests.dto.ItemRequestMapper;
 import ru.practicum.requests.dto.ItemRequestWithResponsesDto;
 
-import javax.validation.constraints.Min;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -45,8 +44,8 @@ public class ItemRequestController {
     @GetMapping("/all")
     public List<ItemRequestWithResponsesDto> getAllOfOthersInPages(
             @RequestHeader(value = "X-Sharer-User-Id") long userId,
-            @Min(0) @RequestParam(required = false) Integer from,
-            @Min(1) @RequestParam(required = false) Integer size) {
+            @RequestParam(required = false) Integer from,
+            @RequestParam(required = false) Integer size) {
         return itemRequestService.getAllOfOthersInPages(userId, from, size)
                 .stream().map(itemRequestMapper::toDtoWithResponses).collect(Collectors.toList());
     }
