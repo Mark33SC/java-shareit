@@ -6,7 +6,6 @@ import ru.practicum.user.dto.UserCreateDto;
 import ru.practicum.user.dto.UserDto;
 import ru.practicum.user.dto.UserDtoMapper;
 
-import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,7 +28,7 @@ public class UserController {
     }
 
     @PostMapping
-    public UserDto addUser(@RequestBody @Valid UserCreateDto userCreateDto) {
+    public UserDto addUser(@RequestBody UserCreateDto userCreateDto) {
         User user = userService.addUser(
                 UserDtoMapper.toUser(userCreateDto)
         );

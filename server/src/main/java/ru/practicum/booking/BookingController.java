@@ -6,7 +6,6 @@ import ru.practicum.booking.dto.BookingCreateDto;
 import ru.practicum.booking.dto.BookingMapper;
 import ru.practicum.booking.dto.BookingDto;
 
-import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -54,7 +53,7 @@ public class BookingController {
     @PostMapping
     public BookingDto addBooking(
             @RequestHeader("X-Sharer-User-Id") long userId,
-            @Valid @RequestBody BookingCreateDto bookingCreateDto
+            @RequestBody BookingCreateDto bookingCreateDto
     ) {
         return BookingMapper.toBookingDto(bookingService.addBooking(bookingCreateDto, userId));
     }

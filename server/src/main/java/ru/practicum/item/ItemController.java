@@ -10,7 +10,6 @@ import ru.practicum.item.dto.ItemDto;
 import ru.practicum.item.dto.ItemMapper;
 import ru.practicum.item.dto.ItemWithBookingDatesDto;
 
-import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import java.util.List;
 
@@ -42,8 +41,8 @@ public class ItemController {
     @GetMapping("/search")
     public List<ItemDto> searchItems(
             @RequestParam() String text,
-            @Valid @Min(0) @RequestParam(required = false) Integer from,
-            @Valid @Min(1) @RequestParam(required = false) Integer size
+            @Min(0) @RequestParam(required = false) Integer from,
+            @Min(1) @RequestParam(required = false) Integer size
     ) {
         return itemService.searchItems(text, from, size);
     }
@@ -51,14 +50,14 @@ public class ItemController {
     @PostMapping
     public ItemDto addItem(
             @RequestHeader(header) long userId,
-            @Valid @RequestBody Item item
+            @RequestBody Item item
     ) {
         return ItemMapper.mapToDto(itemService.addItem(userId, item));
     }
 
     @PostMapping("/{itemId}/comment")
     public CommentDto addComment(
-            @Valid @RequestBody CommentCreateDto commentCreateDto,
+            @RequestBody CommentCreateDto commentCreateDto,
             @PathVariable long itemId,
             @RequestHeader(header) long userId
     ) {
