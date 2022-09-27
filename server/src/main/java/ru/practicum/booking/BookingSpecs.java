@@ -1,0 +1,43 @@
+package ru.practicum.booking;
+
+import org.springframework.data.jpa.domain.Specification;
+import ru.practicum.item.Item_;
+import ru.practicum.item.Item;
+import ru.practicum.user.User;
+
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
+import java.time.LocalDateTime;
+
+public class BookingSpecs {
+    public static Specification<Booking> hasBookingStatus(Status status) {
+        return (root, query, builder) -> builder.equal(root.get(Booking_.status), status);
+    }
+
+    public static Specification<Booking> hasOwnerBookedItem(User itemOwner) {
+        return (root, query, builder) -> {
+            Join<Booking, Item> items = root.join(Booking_.item, JoinType.LEFT);
+            return builder.equal(items.get(Item_.owner), itemOwner);
+        };
+    }
+
+    public static Specification<Booking> hasBooker(User booker) {
+        return (root, query, builder) -> builder.equal(root.get(Booking_.booker), booker);
+    }
+
+    public static Specification<Booking> isBookingEndBeforeThan(LocalDateTime date) {
+        return (root, query, builder) -> builder.greaterThan(root.get(Booking_.end), date);
+    }
+
+    public static Specification<Booking> isBookingStartBeforeThan(LocalDateTime date) {
+        return (root, query, builder) -> builder.greaterThan(root.get(Booking_.start), date);
+    }
+
+    public static Specification<Booking> isBookingEndLessThan(LocalDateTime date) {
+        return (root, query, builder) -> builder.lessThan(root.get(Booking_.end), date);
+    }
+
+    public static Specification<Booking> isBookingStartLessThan(LocalDateTime date) {
+        return (root, query, builder) -> builder.lessThan(root.get(Booking_.start), date);
+    }
+}
